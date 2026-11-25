@@ -1,0 +1,30 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.35, ranksep=0.45];
+node [shape=box, style="rounded,filled", fontname="Times New Roman", fontsize=12, color="#2F5597", fillcolor="#EAF2F8", margin="0.15,0.08"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+start [label="Начало", shape=oval, fillcolor="#E2F0D9", color="#548235"];
+end [label="Завершение", shape=oval, fillcolor="#FCE4D6", color="#C65911"];
+n1 [label="Создать заказ сотрудника\n(Employee с адресом доставки, статус DRAFT)"];
+n2 [label="Получить товар и количество", shape=parallelogram, fillcolor="#E4DFEC", color="#7030A0"];
+n3 [label="Проверить товар (id и name не пустые, price > 0)\nи количество (1 ≤ quantity ≤ 100), статус = DRAFT"];
+n4 [label="Позиция корректна", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n5 [label="Товар с таким id\nуже есть в заказе", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n6 [label="Обновить количество (increase)\nили добавить новую позицию OrderItem"];
+n7 [label="Есть ещё позиции", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n8 [label="Рассчитать итог: сумма getLineTotal()\nпо всем позициям (поле total не хранится)"];
+n9 [label="Подтвердить заказ: заказ не пустой,\nстатус DRAFT → CONFIRMED"];
+n10 [label="Сформировать строку доставки:\n«Заказ для <сотрудник> по адресу <адрес>»", fillcolor="#DDEBF7"];
+start -> n1;
+n1 -> n2;
+n2 -> n3;
+n3 -> n4;
+n4 -> n5 [label="да"];
+n4 -> n2 [label="нет (ошибка,\nследующая позиция)"];
+n5 -> n6 [label="да: increase\nнет: новая позиция"];
+n6 -> n7;
+n7 -> n2 [label="да"];
+n7 -> n8 [label="нет"];
+n8 -> n9;
+n9 -> n10;
+n10 -> end;
+}

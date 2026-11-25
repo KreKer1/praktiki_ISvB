@@ -1,0 +1,23 @@
+productId;name;price;quantity;expected
+# корректные товары
+M01;Monitor 27;32990;2;OK:qty=2
+K01;Keyboard;4490;3;OK:qty=3
+M02;Monitor 32;45000;1;OK:qty=1
+P01;Printer;15000;1;OK:qty=1
+# повтор M01 -> объединение
+M01;Monitor 27;32990;1;OK:merged,qty=3
+# ошибки товара
+X01;Broken;-100;1;SKIP:price
+Z01;Free;0;1;SKIP:price
+;NoId;100;1;SKIP:id
+# границы количества
+L01;Lamp;1000;1;OK:qty=1
+L02;Lamp Pro;2000;100;OK:qty=100
+L03;Lamp Max;3000;101;SKIP:quantity
+C01;Cable;500;5;OK:qty=5
+# вариант 18: адрес доставки
+ADDRESS;Москва;ул. Ленина, 1;;OK
+ADDRESS;;ул. Ленина, 1;;SKIP:адрес
+ADDRESS;Москва;;;SKIP:адрес
+# итог: 7 позиций
+TOTAL;positions=7;sum=375940.00

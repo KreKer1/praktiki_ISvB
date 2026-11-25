@@ -1,0 +1,14 @@
+digraph C {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.5, ranksep=0.7];
+node [shape=record, style="filled", fontname="Times New Roman", fontsize=12, color="#2F5597", fillcolor="#F7FBFF"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+s [label="{SelfCheck|- ROUTER: ApprovalRouter\l- passed: int\l- total: int\l|+ main(args: String[]): void\l- checkRoute(...): void\l- checkError(...): void\l- checkScore(...): void\l- report(name, ok, reason): void\l- runDataDriven(file: Path): void\l- dataResult(line: String): String\l- runInteractive(): void\l- parseRequest(line: String): Request\l- parseAmount(text: String): long\l- parseBool(text, field): boolean\l- parseRisk(text: String): RiskLevel\l}"];
+req [label="{«record» Request|amount: long\lurgent: boolean\lrisk: RiskLevel\lpersonal: boolean\l}"];
+a [label="{ApprovalRouter|+ FINANCE_LIMIT: long = 500000\l|+ route(amount: long, urgent: boolean, risk: RiskLevel, containsPersonalData: boolean): ApprovalRoute\l+ addCombinedScore(containsPersonalData: boolean, urgent: boolean): int\l- requiresCombinedReview(containsPersonalData, urgent): boolean\l- requiresSecurityReview(containsPersonalData): boolean\l- requiresDirectorReview(risk): boolean\l- requiresFinanceReview(amount): boolean\l- requiresFastTrack(amount, urgent): boolean\l- checkArguments(amount, risk): void\l}"];
+r [label="{«enum» ApprovalRoute||STANDARD\lFAST_TRACK\lFINANCE_REVIEW\lDIRECTOR_REVIEW\lSECURITY_REVIEW\lCOMBINED_REVIEW\l}"];
+risk [label="{«enum» RiskLevel||LOW\lMEDIUM\lHIGH\l}"];
+s -> a [label="«use»", style=dashed, arrowhead=vee];
+s -> req [label="создаёт", style=dashed, arrowhead=vee];
+a -> r [label="returns", style=dashed, arrowhead=vee];
+a -> risk [label="uses", style=dashed, arrowhead=vee];
+}

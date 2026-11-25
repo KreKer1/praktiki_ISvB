@@ -1,0 +1,39 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.4, ranksep=0.45, compound=true];
+node [shape=box, style="rounded,filled", fontname="Times New Roman", fontsize=12, color="#2F5597", fillcolor="#EAF2F8", margin="0.15,0.08"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+
+subgraph cluster_alg {
+  label="Алгоритм доменного метода BusinessTrip"; fontname="Times New Roman"; fontsize=13; color="#BBBBBB";
+  start [label="Начало", shape=oval, fillcolor="#E2F0D9", color="#548235"];
+  n1 [label="Получить команду пользователя\n(submit / approve(имя) / reject(причина) / cancel / complete(сегодня))", shape=parallelogram, fillcolor="#E4DFEC", color="#7030A0"];
+  n2 [label="Определить текущий статус заявки (status)"];
+  n3 [label="Проверить допустимость перехода:\nsubmit — только из DRAFT (R3)\napprove, reject — только из SUBMITTED (R5)\ncancel — из DRAFT, SUBMITTED, APPROVED (R7)\ncomplete — только из APPROVED (R8)"];
+  n4 [label="Переход допустим", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+  n5 [label="Проверить данные операции:\napprove — имя руководителя не пустое (вариант 18)\nreject — причина не null и ≥ 10 символов (R6)\ncomplete — сегодня ≥ end (R9)"];
+  n6 [label="Изменить состояние заявки:\nstatus = новый статус;\nreject сохраняет rejectionReason,\napprove сохраняет approvedBy"];
+  n7 [label="Зафиксировать ошибку без изменения объекта:\nпереход — IllegalStateException,\nданные — IllegalArgumentException\n(complete раньше end — IllegalStateException)"];
+  end [label="Завершение", shape=oval, fillcolor="#FCE4D6", color="#C65911"];
+  start -> n1 -> n2 -> n3 -> n4;
+  n4 -> n5 [label="да"];
+  n4 -> n7 [label="нет"];
+  n5 -> n6 [label="корректно"];
+  n5 -> n7 [label="ошибка"];
+  n6 -> end;
+  n7 -> end;
+}
+
+subgraph cluster_states {
+  label="Переходы состояний TripStatus"; fontname="Times New Roman"; fontsize=13; color="#BBBBBB";
+  node [shape=box, style="rounded,filled", fillcolor="#F7FBFF"];
+  DRAFT; SUBMITTED; APPROVED;
+  REJECTED [fillcolor="#FCE4D6"]; CANCELLED [fillcolor="#FCE4D6"]; COMPLETED [fillcolor="#E2F0D9"];
+  DRAFT -> SUBMITTED [label="submit()"];
+  SUBMITTED -> APPROVED [label="approve(имя)"];
+  SUBMITTED -> REJECTED [label="reject(причина ≥ 10)"];
+  APPROVED -> COMPLETED [label="complete(сегодня ≥ end)"];
+  DRAFT -> CANCELLED [label="cancel()"];
+  SUBMITTED -> CANCELLED [label="cancel()"];
+  APPROVED -> CANCELLED [label="cancel()"];
+}
+}

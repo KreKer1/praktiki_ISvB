@@ -1,0 +1,13 @@
+digraph C {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.5, ranksep=0.6];
+node [shape=record, style="filled", fontname="Times New Roman", fontsize=11, color="#2F5597", fillcolor="#F7FBFF"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+sc [label="{SelfCheck|- passed int\l- failed int\l|+ main(String[])\l- check(String, boolean)\l- testConstructor()\l- testTransitions()\l- testVariant()\l- runCsv()\l- doAction(BusinessTrip, String)\l- interactive()\l}"];
+sv [label="{BusinessTripService|- trips List[BusinessTrip]\l|+ create(String, LocalDate, LocalDate) BusinessTrip\l+ findByStatus(TripStatus) List[BusinessTrip]\l+ addApprover(BusinessTrip) String\l}", fillcolor="#DDEBF7"];
+t [label="{BusinessTrip|- id String \{final\}\l- start LocalDate \{final\}\l- end LocalDate \{final\}\l- status TripStatus\l- rejectionReason String\l- approvedBy String\l|+ BusinessTrip(String, LocalDate, LocalDate)\l+ submit()\l+ approve(String)\l+ reject(String)\l+ cancel()\l+ complete(LocalDate)\l+ getId() String\l+ getStart() LocalDate\l+ getEnd() LocalDate\l+ getStatus() TripStatus\l+ getRejectionReason() String\l+ getApprovedBy() String\l}"];
+st [label="{«enum»\nTripStatus||DRAFT\lSUBMITTED\lAPPROVED\lREJECTED\lCANCELLED\lCOMPLETED\l}"];
+sc -> sv [label="тестирует", style=dashed, arrowhead=open];
+sc -> t [label="тестирует", style=dashed, arrowhead=open];
+sv -> t [label="создаёт и хранит 0..*", arrowtail=odiamond, dir=both];
+t -> st [label="использует", style=dashed, arrowhead=open];
+}
