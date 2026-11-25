@@ -1,0 +1,15 @@
+digraph G {
+graph [bgcolor="white", pad=.25, nodesep=.32, ranksep=.4, fontname="Times New Roman"];
+node [shape=box, style="rounded,filled", fillcolor="#f1f6fb", color="#35577b", fontname="Times New Roman", fontsize=14];
+edge [color="#35577b", fontname="Times New Roman", fontsize=12];
+node [shape=record,style=filled];
+p [label="{DeliveryPolicy|supports(request) : boolean\lcalculateCost(request) : double\l}"];
+s [label="{StandardCourierPolicy|лимит 20 кг}"]; e [label="{ExpressPolicy|лимит 15 кг}"]; k [label="{PickupPolicy|стоимость 0}"];
+f [label="{DeliveryPolicyFactory|get(type) : DeliveryPolicy}"];
+d [label="{DeliveryService|calculate(request) : double\laddExpressAvailable(request) : boolean\l}"];
+r [label="{DeliveryRequest|type, distanceKm, weightKg, orderAmount}"];
+t [label="{DeliveryType|STANDARD, EXPRESS, PICKUP}"];
+x [label="{SelfCheck|проверки, CSV, ввод}"];
+x -> d [style=dashed]; d -> f; d -> r; f -> p [style=dashed,label="выбирает"]; r -> t;
+s -> p [arrowhead=empty,style=dashed]; e -> p [arrowhead=empty,style=dashed]; k -> p [arrowhead=empty,style=dashed];
+}

@@ -1,0 +1,14 @@
+code;name;category;quantity;expected
+NB-01;Notebook;COMPUTER;12;OK:qty=12
+MN-01;Monitor;DISPLAY;7;OK:qty=7
+KB-01;Keyboard;PERIPHERAL;20;OK:qty=20
+RT-01;Router;NETWORK;0;OK:qty=0
+XX-01;Broken;UNKNOWN;5;SKIP:category not found
+XX-02;Broken;COMPUTER;-1;SKIP:negative quantity
+NB-01;Duplicate;COMPUTER;99;SKIP:duplicate code
+XX-03;Broken;COMPUTER;abc;SKIP:quantity not a number
+# Вариант 18: два дополнительных поля для выдачи — операция и дата.
+NB-01;Notebook;COMPUTER;2;OK:qty=10;ISSUE;2026-11-23
+NB-01;Notebook;COMPUTER;1;SKIP:weekend;ISSUE;2026-11-28
+NB-01;Notebook;COMPUTER;1;SKIP:weekend;ISSUE;2026-11-29
+NB-01;Notebook;COMPUTER;1;OK:qty=9;ISSUE;2026-11-30

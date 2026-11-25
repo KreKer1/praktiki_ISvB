@@ -1,0 +1,13 @@
+digraph G {
+graph [bgcolor="white", pad=.25, nodesep=.32, ranksep=.4, fontname="Times New Roman"];
+node [shape=box, style="rounded,filled", fillcolor="#f1f6fb", color="#35577b", fontname="Times New Roman", fontsize=14];
+edge [color="#35577b", fontname="Times New Roman", fontsize=12];
+node [shape=record,style=filled]; 
+w [label="{Warehouse|items : Map\lmovements : List\l|addItem\lreceive / issue\lfindByCategory / totalsByCategory\litemsCount / movementsCount\laddMovementsByType\l}"];
+i [label="{StockItem|code, name, category, quantity|increase / decrease\lequals / hashCode\l}"];
+m [label="{StockMovement|itemCode, type, quantity}"];
+c [label="{Category|COMPUTER, DISPLAY\lPERIPHERAL, NETWORK\l}"];
+t [label="{MovementType|RECEIVE, ISSUE}"];
+s [label="{SelfCheck|проверки, CSV, ввод команд}"];
+s -> w [style=dashed,label="использует"]; w -> i [label="карточки"]; w -> m [label="история"]; i -> c; m -> t;
+}

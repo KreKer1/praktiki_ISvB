@@ -1,0 +1,21 @@
+digraph C {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.5, ranksep=0.6];
+node [shape=record, style="filled", fontname="Times New Roman", fontsize=11, color="#2F5597", fillcolor="#F7FBFF"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+sc [label="{SelfCheck|- passed int\l- failed int\l|+ main(String[])\l- check(String, boolean)\l- testProduct()\l- testOrderItem()\l- testOrder()\l- testVariant()\l- runCsv()\l- interactive()\l}"];
+s [label="{OrderService|+ createOrder(Employee) Order\l+ addDeliveryInfo(Order) String\l}", fillcolor="#DDEBF7"];
+o [label="{Order|- employee Employee\l- items List[OrderItem]\l- status OrderStatus\l|+ Order(Employee)\l+ addProduct(Product, int)\l+ removeProduct(String)\l+ total() double\l+ confirm()\l+ getItems() List[OrderItem]\l+ getStatus() OrderStatus\l+ getEmployee() Employee\l}"];
+st [label="{«enum»\nOrderStatus||DRAFT\lCONFIRMED\l}"];
+e [label="{«record»\nEmployee|- id String\l- fullName String\l- address Address\l|+ id() String\l+ fullName() String\l+ address() Address\l}", fillcolor="#DDEBF7"];
+a [label="{«record»\nAddress|- city String\l- street String\l|+ city() String\l+ street() String\l}", fillcolor="#DDEBF7"];
+oi [label="{OrderItem|- product Product\l- quantity int\l|+ OrderItem(Product, int)\l- setQuantity(int)\l+ increase(int)\l+ getLineTotal() double\l+ getProduct() Product\l+ getQuantity() int\l}"];
+p [label="{Product|- id String\l- name String\l- price double\l|+ Product(String, String, double)\l+ getId() String\l+ getName() String\l+ getPrice() double\l}"];
+sc -> s [label="тестирует", style=dashed, arrowhead=open];
+sc -> o [label="тестирует", style=dashed, arrowhead=open];
+s -> o [label="создаёт", style=dashed, arrowhead=open];
+o -> st [label="1", style=dashed, arrowhead=open];
+o -> e [label="1", arrowtail=odiamond, dir=both];
+o -> oi [label="1..*", arrowtail=diamond, dir=both];
+oi -> p [label="1", arrowtail=odiamond, dir=both];
+e -> a [label="1", arrowtail=diamond, dir=both];
+}

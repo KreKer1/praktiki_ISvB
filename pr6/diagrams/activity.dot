@@ -1,0 +1,32 @@
+digraph G {
+graph [rankdir=TB, bgcolor="white", pad=0.3, nodesep=0.4, ranksep=0.45];
+node [shape=box, style="rounded,filled", fontname="Times New Roman", fontsize=12, color="#2F5597", fillcolor="#EAF2F8", margin="0.12,0.08"];
+edge [fontname="Times New Roman", fontsize=10, color="#555555"];
+start [label="Начало", shape=oval, fillcolor="#E2F0D9", color="#548235"];
+end [label="Завершение", shape=oval, fillcolor="#FCE4D6", color="#C65911"];
+n1 [label="Получить параметры заявки\n(amount, urgent, risk, personal)", shape=parallelogram, fillcolor="#E4DFEC", color="#7030A0"];
+g [label="amount ≥ 0 и risk ≠ null?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+err [label="Выбросить IllegalArgumentException\n«Ошибка: …»"];
+v18 [label="Вариант 18: персональные данные\nи срочная заявка?", shape=diamond, fillcolor="#E2EFDA", color="#548235"];
+n2 [label="R1: есть персональные данные?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n4 [label="R2: риск HIGH?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n5 [label="R3: сумма ≥ FINANCE_LIMIT?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n6 [label="R4: срочная и\nсумма < FINANCE_LIMIT?", shape=diamond, fillcolor="#FFF2CC", color="#BF9000"];
+n7 [label="Вернуть маршрут согласования"];
+start -> n1;
+n1 -> g;
+g -> err [label="нет"];
+g -> v18 [label="да"];
+v18 -> n7 [label="да  COMBINED_REVIEW"];
+v18 -> n2 [label="нет"];
+n2 -> n7 [label="да  SECURITY_REVIEW"];
+n2 -> n4 [label="нет"];
+n4 -> n7 [label="да  DIRECTOR_REVIEW"];
+n4 -> n5 [label="нет"];
+n5 -> n7 [label="да  FINANCE_REVIEW"];
+n5 -> n6 [label="нет"];
+n6 -> n7 [label="да  FAST_TRACK"];
+n6 -> n7 [label="нет  R5: STANDARD"];
+n7 -> end;
+err -> end;
+}

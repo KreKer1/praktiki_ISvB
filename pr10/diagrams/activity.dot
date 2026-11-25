@@ -1,0 +1,14 @@
+digraph G {
+graph [bgcolor="white", pad=.25, nodesep=.32, ranksep=.4, fontname="Times New Roman"];
+node [shape=box, style="rounded,filled", fillcolor="#f1f6fb", color="#35577b", fontname="Times New Roman", fontsize=14];
+edge [color="#35577b", fontname="Times New Roman", fontsize=12];
+start [label="Начало",shape=oval]; end [label="Конец",shape=oval];
+req [label="Получить заявку и прочитать её тип"];
+factory [label="Выбрать политику в DeliveryPolicyFactory"];
+supports [label="Политика поддерживает заявку?",shape=diamond];
+cost [label="Вызвать calculateCost\nу выбранной политики"];
+out [label="Вернуть стоимость"];
+err [label="Отклонить заявку",fillcolor="#fbecec"];
+express [label="addExpressAvailable\nЗапросить политику EXPRESS и вызвать supports\nЛимит экспресса — 15 кг включительно"];
+start -> req -> factory -> supports; supports -> cost [label="да"]; supports -> err [label="нет"]; cost -> out -> end; err -> end; express -> supports [style=dashed,label="та же проверка экспресса"];
+}

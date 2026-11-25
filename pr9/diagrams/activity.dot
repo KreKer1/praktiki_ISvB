@@ -1,0 +1,16 @@
+digraph G {
+graph [bgcolor="white", pad=.25, nodesep=.32, ranksep=.4, fontname="Times New Roman"];
+node [shape=box, style="rounded,filled", fillcolor="#f1f6fb", color="#35577b", fontname="Times New Roman", fontsize=14];
+edge [color="#35577b", fontname="Times New Roman", fontsize=12];
+start [label="Начало",shape=oval]; end [label="Конец",shape=oval];
+op [label="Приход или выдача?",shape=diamond];
+week [label="Суббота или воскресенье?",shape=diamond];
+find [label="Найти карточку по коду"];
+valid [label="Карточка есть и операция допустима?",shape=diamond];
+change [label="Приход — увеличить остаток\nВыдача — уменьшить остаток"];
+save [label="Добавить движение в историю"];
+summary [label="При запросе сводки сложить\nтекущие остатки по категориям"];
+error [label="Сообщить об ошибке",fillcolor="#fbecec"];
+start -> op; op -> week [label="выдача"]; op -> find [label="приход"]; week -> error [label="да"]; week -> find [label="нет"]; find -> valid;
+valid -> error [label="нет"]; valid -> change [label="да"]; change -> save; save -> end; save -> summary [label="запрос сводки",style=dashed]; summary -> end [style=dashed]; error -> end;
+}
